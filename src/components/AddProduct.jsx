@@ -11,8 +11,13 @@ const AddProduct = () => {
 
   const createProduct = async (e) => {
     e.preventDefault();
-    await dispatch(saveProduct({ title, price }));
-    navigate("/");
+    try {
+      await dispatch(saveProduct({ title, price }));
+      navigate("/");
+    } catch (error) {
+      console.log(error.message);
+    }
+   
   };
   return (
     <div>

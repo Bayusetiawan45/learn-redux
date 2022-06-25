@@ -31,7 +31,7 @@ const ShowProduct = () => {
               <td>{product.price}</td>
               <td>
                 <Link to={`edit/${product.id}`} className="button is-info is-small">Edit</Link>
-                <button onClick={()=> (dispatch(deleteProduct(product.id)))} className="button is-danger is-small">Delete</button>
+                <button onClick={()=> (dispatch(deleteProduct(product.id)))} className="button is-danger is-small ml-1">Delete</button>
               </td>
             </tr>
           ))}

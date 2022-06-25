@@ -1,33 +1,41 @@
 import React, { useEffect, useState } from "react";
-import {useDispatch, useSelector} from 'react-redux'
-import { getProduct, productSelector, updateProduct } from "../features/productSlice";
-import {useParams, useNavigate} from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getProduct,
+  productSelector,
+  updateProduct,
+} from "../features/productSlice";
+import { useParams, useNavigate } from "react-router-dom";
 
 const EditProduct = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const {id} = useParams()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { id } = useParams();
 
-  const product = useSelector((state) => productSelector.selectById(state, id))
+  const product = useSelector((state) => productSelector.selectById(state, id));
 
-  useEffect(()=> {
-    dispatch(getProduct())
-  }, [dispatch])
+  useEffect(() => {
+    dispatch(getProduct());
+  }, [dispatch]);
 
-  useEffect(()=> {
-    if(product){
-        setTitle(product.title)
-        setPrice(product.price)
+  useEffect(() => {
+    if (product) {
+      setTitle(product.title);
+      setPrice(product.price);
     }
-  }, [product])
+  }, [product]);
 
   const handleUpdate = async (e) => {
-    e.preventDefault()
-    await dispatch(updateProduct({id, title, price}))
-    navigate('/')
-  }
+    e.preventDefault();
+    try {
+      await dispatch(updateProduct({ id, title, price }));
+      navigate("/");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div>

@@ -18,7 +18,7 @@
     {
       "id": 4,
       "title": "Product4 Updated",
-      "price": "745"
+      "price": "746"
     },
     {
       "id": 5,
@@ -29,6 +29,11 @@
       "title": "Product New",
       "price": "234",
       "id": 6
+    },
+    {
+      "title": "Product7",
+      "price": "296",
+      "id": 7
     }
   ]
 }
