@@ -1,22 +1,37 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { saveProduct } from "../features/productSlice";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {useDispatch, useSelector} from 'react-redux'
+import { getProduct, productSelector, updateProduct } from "../features/productSlice";
+import {useParams, useNavigate} from 'react-router-dom'
 
-const AddProduct = () => {
+const EditProduct = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const {id} = useParams()
 
-  const createProduct = async (e) => {
-    e.preventDefault();
-    await dispatch(saveProduct({ title, price }));
-    navigate("/");
-  };
+  const product = useSelector((state) => productSelector.selectById(state, id))
+
+  useEffect(()=> {
+    dispatch(getProduct())
+  }, [dispatch])
+
+  useEffect(()=> {
+    if(product){
+        setTitle(product.title)
+        setPrice(product.price)
+    }
+  }, [product])
+
+  const handleUpdate = async (e) => {
+    e.preventDefault()
+    await dispatch(updateProduct({id, title, price}))
+    navigate('/')
+  }
+
   return (
     <div>
-      <form onSubmit={createProduct} className="box mt-5">
+      <form onSubmit={handleUpdate} className="box mt-5">
         <div className="field">
           <label className="label">Title</label>
           <div className="control">
@@ -44,7 +59,7 @@ const AddProduct = () => {
         <div className="field">
           <label className="label">Price</label>
           <div className="control">
-            <button className="button is-success">Submit</button>
+            <button className="button is-success">Update</button>
           </div>
         </div>
       </form>
@@ -52,4 +67,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;
